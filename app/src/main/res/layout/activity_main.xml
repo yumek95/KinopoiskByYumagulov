@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/corner_background"
     tools:context=".MainActivity">
 
     <androidx.cardview.widget.CardView
@@ -44,64 +45,53 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <LinearLayout
-        android:id="@+id/buttonPanel"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/corner_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/buttonPanel"-->
+<!--        android:layout_width="300dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        android:background="@drawable/corner_background"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?selectableItemBackground"
-            android:text="@string/menu"/>
+<!--        <Button-->
+<!--            android:id="@+id/button"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="?selectableItemBackground"-->
+<!--            android:text="@string/menu"/>-->
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?selectableItemBackground"
-            android:text="@string/favorites"/>
+<!--        <Button-->
+<!--            android:id="@+id/button2"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="?selectableItemBackground"-->
+<!--            android:text="@string/favorites"/>-->
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?selectableItemBackground"
-            android:text="@string/watch_later"/>
+<!--        <Button-->
+<!--            android:id="@+id/button3"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="?selectableItemBackground"-->
+<!--            android:text="@string/watch_later"/>-->
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?selectableItemBackground"
-            android:text="@string/compilations"/>
+<!--        <Button-->
+<!--            android:id="@+id/button4"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="?selectableItemBackground"-->
+<!--            android:text="@string/compilations"/>-->
 
-        <Button
-            android:id="@+id/button5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?selectableItemBackground"
-            android:text="@string/settings"/>
+<!--        <Button-->
+<!--            android:id="@+id/button5"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="?selectableItemBackground"-->
+<!--            android:text="@string/settings"/>-->
 
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/bottom_menu"
-        android:background="#C9CCFF"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
->
-
-    </FrameLayout>
+<!--    </LinearLayout>-->
 
     <TextView
         android:id="@+id/textView"
@@ -109,6 +99,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:textColor="@color/white"
         android:autoLink="web"
         android:clickable="true"
         android:text="Постеры взяты с kinopoisk.ru"

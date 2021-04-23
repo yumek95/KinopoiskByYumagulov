@@ -4,6 +4,5 @@
         android:startColor="@android:color/holo_orange_dark"
         android:endColor="@color/design_default_color_primary_dark"
         android:angle="45"/>
-    <corners
-        android:radius="10dp"/>
+
 </shape>
