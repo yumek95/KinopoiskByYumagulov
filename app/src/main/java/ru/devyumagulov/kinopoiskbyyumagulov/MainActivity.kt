@@ -1,55 +1,11 @@
 package ru.devyumagulov.kinopoiskbyyumagulov
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    //Поле для нашего адаптера
-    private lateinit var filmsAdapter: FilmListRecyclerAdapter
-
-    //создаем "БД" фильмов
-    val filmsDataBase = listOf(
-        Film("El Camino", R.drawable.el_camino, "Джесси Пинкман сбежал от " +
-                "неонацистов. Не зная, куда ему податься, он скрывается от полиции, похитителей " +
-                "и прошлого. Теперь он должен понять, как ему жить дальше."),
-        Film("Годзилла против Конга", R.drawable.godzilla_vs_kingkong, "Конг и " +
-                "группа ученых отправляются в опасное путешествие в поисках родного дома " +
-                "гиганта. Среди них девочка Джия, единственная, кто умеет общаться с Конгом. " +
-                "Неожиданно они сталкиваются с разъяренным Годзиллой, разрушающим все на своем " +
-                "пути. Битва двух титанов, спровоцированная неведомыми силами — лишь малая часть " +
-                "тайны, спрятанной в недрах Земли."),
-        Film("Достать ножи", R.drawable.knives_out, "На следующее утро после " +
-                "празднования 85-летия известного автора криминальных романов Харлана Тромби " +
-                "виновника торжества находят мёртвым. Налицо - явное самоубийство, но полиция " +
-                "по протоколу опрашивает всех присутствующих в особняке членов семьи, хотя, в" +
-                " этом деле больше заинтересован частный детектив Бенуа Блан. Тем же утром он " +
-                "получил конверт с наличными от неизвестного и заказ на расследование смерти " +
-                "Харлана. Не нужно быть опытным следователем, чтобы понять, что все " +
-                "приукрашивают свои отношения с почившим главой семейства, но Блану достаётся" +
-                " настоящий подарок - медсестра покойного, которая физически не выносит ложь."),
-        Film("Любовь. Смерть. Роботы", R.drawable.love_death_robots,
-            "Короткометражные фильмы на фантастические темы."),
-        Film("Майор Гром", R.drawable.mayor_grom, "Игорь Гром — опытный " +
-                "следователь из Санкт-Петербурга, известный своим пробивным характером и " +
-                "непримиримой позицией по отношению к преступникам всех мастей. Неимоверная" +
-                " сила, аналитический склад ума и неподкупность — всё это делает майора Грома " +
-                "идеальным полицейским. Работая не покладая рук, он всегда доводит начатое до " +
-                "конца и никогда не пасует перед стоящими на пути трудностями."),
-        Film("Mortal Kombat", R.drawable.mk, "Фильм по культовой игре"),
-        Film("Рик и Морти", R.drawable.rick_and_morty, "В центре сюжета - " +
-                "школьник по имени Морти и его дедушка Рик. Морти - самый обычный мальчик, " +
-                "который ничем не отличается от своих сверстников. А вот его дедуля занимается " +
-                "необычными научными исследованиями и зачастую полностью неадекватен. Он" +
-                " может в любое время дня и ночи схватить внука и отправиться вместе с ним" +
-                " в безумные приключения с помощью построенной из разного хлама летающей " +
-                "тарелки, которая способна перемещаться сквозь межпространственный тоннель." +
-                " Каждый раз эта парочка оказывается в самых неожиданных местах и " +
-                "самых нелепых ситуациях.")
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,49 +13,34 @@ class MainActivity : AppCompatActivity() {
 
         initNavigation()
 
-        //находим наш RV
-        main_recycler.apply {
-            //Инициализируем наш адаптер в конструктор передаем анонимно инициализированный интерфейс,
-            //оставим его пока пустым, он нам понадобится во второй части задания
-            filmsAdapter = FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener{
-                override fun click(film: Film) {
-                    //Создаем бандл и кладем туда объект с данными фильма
-                    val bundle = Bundle()
-                    //Первым параметром указывается ключ, по которому потом будем искать, вторым сам
-                    //передаваемый объект
-                    bundle.putParcelable("film", film)
-                    //Запускаем наше активити
-                    val intent = Intent(this@MainActivity, DetailsActivity::class.java)
-                    //Прикрепляем бандл к интенту
-                    intent.putExtras(bundle)
-                    //Запускаем активити через интент
-                    startActivity(intent)
+        //Запускаем фрагмент при старте
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.fragment_placeholder, HomeFragment())
+            .addToBackStack(null)
+            .commit()
 
-                }
-            })
+    }
 
-            //Присваиваем адаптер
-            adapter = filmsAdapter
-            //Присвоим layoutManager
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            //Применяем декоратор для отступов
-            val decorator = TopSpacingItemDecoration(8)
-            addItemDecoration(decorator)
-        }
-        //Кладем нашу БД в RV
-        filmsAdapter.addItems(filmsDataBase)
+    fun launchDetailsFragment(film: Film) {
+        //Создаем "посылку"
+        val bundle = Bundle()
+        //Кладем наш фильм в "посылку"
+        bundle.putParcelable("film", film)
+        //Кладем фрагмент с деталями в перменную
+        val fragment = DetailsFragment()
+        //Прикрепляем нашу "посылку" к фрагменту
+        fragment.arguments = bundle
+
+        //Запускаем фрагмент
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_placeholder, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun initNavigation() {
-        topAppBar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.settings -> {
-                    Toast.makeText(this, "Настройки", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                else -> false
-            }
-        }
 
         bottom_navigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
