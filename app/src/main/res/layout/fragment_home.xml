@@ -51,12 +51,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Постеры блаблабла"
         android:autoLink="web"
         android:linksClickable="true"
+        android:text="@string/disclaimer"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_bar" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_bar"
+        app:layout_constraintBottom_toTopOf="@id/main_recycler"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/main_recycler"
