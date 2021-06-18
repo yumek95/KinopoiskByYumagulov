@@ -25,6 +25,9 @@ class FavoritesFragment : Fragment() {
         //Получаем список при транзакции фрагмента
         val favoritesList: List<Film> = emptyList()
 
+        //Запускаем анимацию
+        AnimationHelper.performFragmentCircularRevealAnimation(favorites_fragment_root, requireActivity(), 2)
+
         favorites_recycler
             .apply {
                 filmsAdapter = FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener{
@@ -42,5 +45,6 @@ class FavoritesFragment : Fragment() {
             }
         //Кладем нашу БД в RV
         filmsAdapter.addItems(favoritesList)
+
     }
 }
