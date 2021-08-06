@@ -40,11 +40,15 @@ class DetailsFragment : Fragment() {
             val intent = Intent()
             //Указываем action с которым он запускается
             intent.action = Intent.ACTION_SEND
+            //Инициализируем объект Film
+            //Не понятно, почему не работает lateinit
+            val film = arguments?.get("film") as Film
             //Кладем данные о нашем фильме
             intent.putExtra(
                 Intent.EXTRA_TEXT,
                 "Зацени этот фильм: ${film.title} \n\n ${film.description}"
             )
+
             //Указываем MIME тип, чтобы система знала, какое приложения предложить
             intent.type = "text/plain"
             //Запускаем наше активити
