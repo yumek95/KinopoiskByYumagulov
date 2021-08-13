@@ -25,6 +25,9 @@ class DetailsFragment : Fragment() {
 
         //Кнопка "Избранное"
         details_fab_favorites.setOnClickListener {
+            //Инициализируем объект Film
+            //Непонятно, почему не работает lateinit
+            val film = arguments?.get("film") as Film
             if (!film.isInFavorites) {
                 details_fab_favorites.setImageResource(R.drawable.ic_round_favorites)
                 film.isInFavorites = true
@@ -41,7 +44,7 @@ class DetailsFragment : Fragment() {
             //Указываем action с которым он запускается
             intent.action = Intent.ACTION_SEND
             //Инициализируем объект Film
-            //Не понятно, почему не работает lateinit
+            //Непонятно, почему не работает lateinit
             val film = arguments?.get("film") as Film
             //Кладем данные о нашем фильме
             intent.putExtra(
