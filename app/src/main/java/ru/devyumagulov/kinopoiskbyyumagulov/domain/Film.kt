@@ -1,4 +1,4 @@
-package ru.devyumagulov.kinopoiskbyyumagulov
+package ru.devyumagulov.kinopoiskbyyumagulov.domain
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

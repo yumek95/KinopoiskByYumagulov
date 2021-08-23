@@ -1,4 +1,4 @@
-package ru.devyumagulov.kinopoiskbyyumagulov
+package ru.devyumagulov.kinopoiskbyyumagulov.view.rv_adapters
 
 import android.content.res.Resources
 import android.graphics.Rect

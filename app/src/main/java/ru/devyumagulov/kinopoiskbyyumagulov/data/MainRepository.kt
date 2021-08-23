@@ -1,22 +1,9 @@
-package ru.devyumagulov.kinopoiskbyyumagulov
+package ru.devyumagulov.kinopoiskbyyumagulov.data
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.SearchView
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_favorites.*
-import kotlinx.android.synthetic.main.fragment_home.*
-import java.util.*
+import ru.devyumagulov.kinopoiskbyyumagulov.R
+import ru.devyumagulov.kinopoiskbyyumagulov.domain.Film
 
-class HomeFragment : Fragment() {
-
-    //Поле для нашего адаптера
-    private lateinit var filmsAdapter: FilmListRecyclerAdapter
-
-    //создаем "БД" фильмов
+class MainRepository {
     val filmsDataBase = listOf(
         Film(
             "El Camino", R.drawable.el_camino, "Джесси Пинкман сбежал от " +
@@ -32,7 +19,8 @@ class HomeFragment : Fragment() {
                     "тайны, спрятанной в недрах Земли.", false, 5.8f
         ),
         Film(
-            "Достать ножи", R.drawable.knives_out, "На следующее утро после " +
+            "Достать ножи",
+            R.drawable.knives_out, "На следующее утро после " +
                     "празднования 85-летия известного автора криминальных романов Харлана Тромби " +
                     "виновника торжества находят мёртвым. Налицо - явное самоубийство, но полиция " +
                     "по протоколу опрашивает всех присутствующих в особняке членов семьи, хотя, в" +
@@ -68,71 +56,4 @@ class HomeFragment : Fragment() {
         )
     )
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        //Запускаем анимацию
-        AnimationHelper.performFragmentCircularRevealAnimation(home_fragment_root, requireActivity(), 1)
-
-        //находим наш RV
-        main_recycler.apply {
-            //Инициализируем наш адаптер в конструктор передаем анонимно инициализированный интерфейс,
-            filmsAdapter =
-                FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener {
-                    override fun click(film: Film) {
-                        (requireActivity() as MainActivity).launchDetailsFragment(film)
-
-                    }
-                })
-
-            //Присваиваем адаптер
-            adapter = filmsAdapter
-            //Присвоим layoutManager
-            layoutManager = LinearLayoutManager(requireContext())
-            //Применяем декоратор для отступов
-            val decorator = TopSpacingItemDecoration(8)
-            addItemDecoration(decorator)
-        }
-        //Кладем нашу БД в RV
-        filmsAdapter.addItems(filmsDataBase)
-
-        //Теперь все поле search_view кликабельно
-        search_view.setOnClickListener {
-            search_view.isIconified = false
-        }
-
-        //Подключаем слушателя изменений введенного текста в поиска
-        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-
-            //Этот метод отрабатывает при нажатии кнопки "поиск" на софт клавиатуре
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
-            }
-
-            //Этот метод отрабатывает на каждое изменения текста
-            override fun onQueryTextChange(newText: String): Boolean {
-                //Если ввод пуст то вставляем в адаптер всю БД
-                if (newText.isEmpty()) {
-                    filmsAdapter.addItems(filmsDataBase)
-                    return true
-                }
-                //Фильтруем список на поиск подходящих сочетаний
-                val result = filmsDataBase.filter {
-                    //Чтобы все работало правильно, нужно и запрос, и имя фильма приводить к нижнему регистру
-                    it.title.toLowerCase(Locale.getDefault()).contains(newText.toLowerCase(Locale.getDefault()))
-                }
-                //Добавляем в адаптер
-                filmsAdapter.addItems(result)
-                return true
-            }
-        })
-    }
 }

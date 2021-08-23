@@ -1,4 +1,4 @@
-package ru.devyumagulov.kinopoiskbyyumagulov
+package ru.devyumagulov.kinopoiskbyyumagulov.view.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_favorites.*
+import ru.devyumagulov.kinopoiskbyyumagulov.view.rv_adapters.FilmListRecyclerAdapter
+import ru.devyumagulov.kinopoiskbyyumagulov.MainActivity
+import ru.devyumagulov.kinopoiskbyyumagulov.R
+import ru.devyumagulov.kinopoiskbyyumagulov.view.rv_adapters.TopSpacingItemDecoration
+import ru.devyumagulov.kinopoiskbyyumagulov.domain.Film
+import ru.devyumagulov.kinopoiskbyyumagulov.utils.AnimationHelper
 
 class FavoritesFragment : Fragment() {
 
@@ -30,7 +36,7 @@ class FavoritesFragment : Fragment() {
 
         favorites_recycler
             .apply {
-                filmsAdapter = FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener{
+                filmsAdapter = FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener {
                     override fun click(film: Film) {
                         (requireActivity() as MainActivity).launchDetailsFragment(film)
                     }

@@ -1,4 +1,4 @@
-package ru.devyumagulov.kinopoiskbyyumagulov
+package ru.devyumagulov.kinopoiskbyyumagulov.utils
 
 import android.app.Activity
 import android.view.View

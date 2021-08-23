@@ -1,9 +1,10 @@
-package ru.devyumagulov.kinopoiskbyyumagulov
+package ru.devyumagulov.kinopoiskbyyumagulov.view.customviews
 
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import ru.devyumagulov.kinopoiskbyyumagulov.R
 
 class RatingDonutView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
     //Овал для рисования сегментов прогресс бара
