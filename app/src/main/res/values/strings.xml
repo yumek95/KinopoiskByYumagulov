@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Kinopoisk by Yumagulov</string>
+    <string name="home">Главная</string>
+    <string name="favorites">Избранное</string>
+    <string name="watch_later">Посмотреть позже</string>
+    <string name="compilations">Подборки</string>
+    <string name="settings">Настройки</string>
+    <string name="page_title">Поиск</string>
+    <string name="disclaimer">Постеры взяты с сайта: kinopoisk.ru</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
