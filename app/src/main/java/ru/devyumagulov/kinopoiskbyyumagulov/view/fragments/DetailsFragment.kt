@@ -2,33 +2,37 @@ package ru.devyumagulov.kinopoiskbyyumagulov.view.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.renderscript.ScriptGroup
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_details.*
 import ru.devyumagulov.kinopoiskbyyumagulov.R
+import ru.devyumagulov.kinopoiskbyyumagulov.data.ApiConstants
+import ru.devyumagulov.kinopoiskbyyumagulov.databinding.FragmentDetailsBinding
 import ru.devyumagulov.kinopoiskbyyumagulov.domain.Film
 
 class DetailsFragment : Fragment() {
     private lateinit var film : Film
+    private lateinit var binding :FragmentDetailsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_details, container, false)
+        binding = FragmentDetailsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setFilmsDetails()
 
         //Кнопка "Избранное"
-        details_fab_favorites.setOnClickListener {
+        binding.detailsFabFavorites.setOnClickListener {
             //Инициализируем объект Film
-            //Непонятно, почему не работает lateinit
             val film = arguments?.get("film") as Film
             if (!film.isInFavorites) {
                 details_fab_favorites.setImageResource(R.drawable.ic_round_favorites)
@@ -40,7 +44,7 @@ class DetailsFragment : Fragment() {
         }
 
         //Кнопка "Поделиться"
-        details_fab.setOnClickListener {
+        binding.detailsFab.setOnClickListener {
             //Создаем интент
             val intent = Intent()
             //Указываем action с которым он запускается
@@ -69,7 +73,10 @@ class DetailsFragment : Fragment() {
         //Устанавливаем заголовок
         details_toolbar.title = film.title
         //Устанавливаем картинку
-        details_poster.setImageResource(film.poster)
+        Glide.with(this)
+            .load(ApiConstants.IMAGES_URL + "w780" + film.poster)
+            .centerCrop()
+            .into(binding.detailsPoster)
         //Устанавливаем описание
         details_description.text = film.description
 

@@ -2,7 +2,9 @@ package ru.devyumagulov.kinopoiskbyyumagulov.view.rv_viewholders
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.film_item.view.*
+import ru.devyumagulov.kinopoiskbyyumagulov.data.ApiConstants
 import ru.devyumagulov.kinopoiskbyyumagulov.domain.Film
 
 //В конструктор класс передается layout, который мы создали(film_item.xml)
@@ -19,7 +21,10 @@ class FilmViewHolder(private val itemView: View) : RecyclerView.ViewHolder(itemV
         //Устанавливаем заголовок
         title.text = film.title
         //Устанавливаем постер
-        poster.setImageResource(film.poster)
+        Glide.with(itemView)
+            .load(ApiConstants.IMAGES_URL + "w780" + film.poster)
+            .centerCrop()
+            .into(poster)
         //Устанавливаем описание
         description.text = film.description
         //Устанавливаем рэйтинг

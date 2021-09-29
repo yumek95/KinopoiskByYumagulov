@@ -24,6 +24,19 @@ class RatingDonutView @JvmOverloads constructor(context: Context, attrs: Attribu
     private lateinit var digitPaint: Paint
     private lateinit var circlePaint: Paint
 
+    init {
+        //Получаем атрибуты и устанавливаем их в соответствующие поля
+        val a = context.theme.obtainStyledAttributes(attrs, R.styleable.RatingDonutView, 0, 0)
+        try {
+            stroke = a.getFloat(R.styleable.RatingDonutView_stroke, stroke)
+            progress = a.getInt(R.styleable.RatingDonutView_progress, progress)
+        } finally {
+            a.recycle()
+        }
+        //Инициализируем первоначальные краски
+        initPaint()
+    }
+
     override fun onDraw(canvas: Canvas) {
         //Рисуем кольцо и задний фон
         drawRating(canvas)
@@ -135,18 +148,5 @@ class RatingDonutView @JvmOverloads constructor(context: Context, attrs: Attribu
         initPaint()
         //вызываем перерисовку View
         invalidate()
-    }
-
-    init {
-        //Получаем атрибуты и устанавливаем их в соответствующие поля
-        val a = context.theme.obtainStyledAttributes(attrs, R.styleable.RatingDonutView, 0, 0)
-        try {
-            stroke = a.getFloat(R.styleable.RatingDonutView_stroke, stroke)
-            progress = a.getInt(R.styleable.RatingDonutView_progress, progress)
-        } finally {
-            a.recycle()
-        }
-        //Инициализируем первоначальные краски
-        initPaint()
     }
 }

@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_home.*
-import ru.devyumagulov.kinopoiskbyyumagulov.MainActivity
+import ru.devyumagulov.kinopoiskbyyumagulov.view.MainActivity
 import ru.devyumagulov.kinopoiskbyyumagulov.R
 import ru.devyumagulov.kinopoiskbyyumagulov.view.rv_adapters.TopSpacingItemDecoration
 import ru.devyumagulov.kinopoiskbyyumagulov.domain.Film

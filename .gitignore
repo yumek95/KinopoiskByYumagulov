@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+/.idea/
+/app/src/main/java/ru/devyumagulov/kinopoiskbyyumagulov/data/API.kt
+/app/src/main/java/ru/devyumagulov/kinopoiskbyyumagulov/data/ApiConstants.kt
+

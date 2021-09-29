@@ -7,7 +7,7 @@
 
     <activity
         android:id="@+id/mainActivity"
-        android:name="ru.devyumagulov.kinopoiskbyyumagulov.MainActivity"
+        android:name="ru.devyumagulov.kinopoiskbyyumagulov.view.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
     <fragment

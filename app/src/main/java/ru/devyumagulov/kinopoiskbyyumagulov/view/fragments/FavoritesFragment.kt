@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_favorites.*
 import ru.devyumagulov.kinopoiskbyyumagulov.view.rv_adapters.FilmListRecyclerAdapter
-import ru.devyumagulov.kinopoiskbyyumagulov.MainActivity
+import ru.devyumagulov.kinopoiskbyyumagulov.view.MainActivity
 import ru.devyumagulov.kinopoiskbyyumagulov.R
 import ru.devyumagulov.kinopoiskbyyumagulov.view.rv_adapters.TopSpacingItemDecoration
 import ru.devyumagulov.kinopoiskbyyumagulov.domain.Film
