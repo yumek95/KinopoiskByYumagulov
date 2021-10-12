@@ -3,6 +3,9 @@ package ru.devyumagulov.kinopoiskbyyumagulov
 import android.app.Application
 import ru.devyumagulov.kinopoiskbyyumagulov.di.AppComponent
 import ru.devyumagulov.kinopoiskbyyumagulov.di.DaggerAppComponent
+import ru.devyumagulov.kinopoiskbyyumagulov.di.modules.DatabaseModule
+import ru.devyumagulov.kinopoiskbyyumagulov.di.modules.DomainModule
+import ru.devyumagulov.kinopoiskbyyumagulov.di.modules.RemoteModule
 
 class App : Application() {
     lateinit var dagger: AppComponent
@@ -12,7 +15,11 @@ class App : Application() {
         //Инициализируем экземпляр App, через который будем получать доступ к остальным переменным
         instance = this
         //Создаем компонент
-        dagger = DaggerAppComponent.create()
+        dagger = DaggerAppComponent.builder()
+            .remoteModule(RemoteModule())
+            .databaseModule(DatabaseModule())
+            .domainModule(DomainModule(this))
+            .build()
     }
 
     companion object {

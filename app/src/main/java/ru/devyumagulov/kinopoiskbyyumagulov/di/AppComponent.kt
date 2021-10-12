@@ -5,6 +5,7 @@ import ru.devyumagulov.kinopoiskbyyumagulov.di.modules.DatabaseModule
 import ru.devyumagulov.kinopoiskbyyumagulov.di.modules.DomainModule
 import ru.devyumagulov.kinopoiskbyyumagulov.di.modules.RemoteModule
 import ru.devyumagulov.kinopoiskbyyumagulov.viewmodel.HomeFragmentViewModel
+import ru.devyumagulov.kinopoiskbyyumagulov.viewmodel.SettingsFragmentViewModel
 import javax.inject.Singleton
 
 @Singleton
@@ -20,4 +21,6 @@ import javax.inject.Singleton
 interface AppComponent {
     //метод для того, чтобы появилась возможность внедрять зависимости в HomeFragmentViewModel
     fun inject(homeFragmentViewModel: HomeFragmentViewModel)
+    //метод для того, чтобы появилась возможность внедрять зависимости в SettingsFragmentViewModel
+    fun inject(settingsFragmentViewModel: SettingsFragmentViewModel)
 }

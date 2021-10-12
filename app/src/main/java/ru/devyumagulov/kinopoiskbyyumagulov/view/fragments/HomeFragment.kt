@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_home.*
 import ru.devyumagulov.kinopoiskbyyumagulov.view.MainActivity
 import ru.devyumagulov.kinopoiskbyyumagulov.R
+import ru.devyumagulov.kinopoiskbyyumagulov.databinding.FragmentHomeBinding
 import ru.devyumagulov.kinopoiskbyyumagulov.view.rv_adapters.TopSpacingItemDecoration
 import ru.devyumagulov.kinopoiskbyyumagulov.domain.Film
 import ru.devyumagulov.kinopoiskbyyumagulov.utils.AnimationHelper
@@ -23,6 +24,7 @@ class HomeFragment : Fragment() {
 
     //Поле для нашего адаптера
     private lateinit var filmsAdapter: FilmListRecyclerAdapter
+    private lateinit var binding: FragmentHomeBinding
     private val viewModel by lazy {
         ViewModelProvider.NewInstanceFactory().create(HomeFragmentViewModel::class.java)
     }
@@ -40,7 +42,8 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,6 +52,7 @@ class HomeFragment : Fragment() {
         //Запускаем анимацию
         AnimationHelper.performFragmentCircularRevealAnimation(home_fragment_root, requireActivity(), 1)
 
+        initPullToRefresh()
         //подпишемся на изменения этой View Model
         viewModel.filmListLiveData.observe(viewLifecycleOwner, Observer<List<Film>> {
             filmsDataBase = it
@@ -73,7 +77,10 @@ class HomeFragment : Fragment() {
             addItemDecoration(decorator)
         }
         //Кладем нашу БД в RV
-        filmsAdapter.addItems(filmsDataBase)
+        viewModel.filmListLiveData.observe(viewLifecycleOwner, Observer<List<Film>> {
+            filmsDataBase = it
+            filmsAdapter.addItems(it)
+        })
 
         //Теперь все поле search_view кликабельно
         search_view.setOnClickListener {
@@ -106,5 +113,16 @@ class HomeFragment : Fragment() {
                 return true
             }
         })
+    }
+    private fun initPullToRefresh() {
+        //Вешаем слушатель, чтобы вызвался pull to refresh
+        binding.pullToRefresh.setOnRefreshListener {
+            //Чистим адаптер
+            filmsAdapter.items.clear()
+            //Делаем новый запрос фильмов на сервер
+            viewModel.getFilms()
+            //Убираем крутящееся колечко
+            binding.pullToRefresh.isRefreshing = false
+        }
     }
 }

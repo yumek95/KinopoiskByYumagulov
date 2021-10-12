@@ -25,4 +25,10 @@
         android:icon="@drawable/ic_round_compilations"
         app:showAsAction="withText"/>
 
+    <item
+        android:id="@+id/settings"
+        android:title="@string/settings"
+        android:icon="@drawable/ic_round_settings"
+        app:showAsAction="withText"/>
+
 </menu>
