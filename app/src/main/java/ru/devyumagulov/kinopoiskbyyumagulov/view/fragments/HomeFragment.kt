@@ -11,10 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_home.*
 import ru.devyumagulov.kinopoiskbyyumagulov.view.MainActivity
-import ru.devyumagulov.kinopoiskbyyumagulov.R
 import ru.devyumagulov.kinopoiskbyyumagulov.databinding.FragmentHomeBinding
 import ru.devyumagulov.kinopoiskbyyumagulov.view.rv_adapters.TopSpacingItemDecoration
-import ru.devyumagulov.kinopoiskbyyumagulov.domain.Film
+import ru.devyumagulov.kinopoiskbyyumagulov.data.Entity.Film
 import ru.devyumagulov.kinopoiskbyyumagulov.utils.AnimationHelper
 import ru.devyumagulov.kinopoiskbyyumagulov.view.rv_adapters.FilmListRecyclerAdapter
 import ru.devyumagulov.kinopoiskbyyumagulov.viewmodel.HomeFragmentViewModel

@@ -4,6 +4,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ru.devyumagulov.kinopoiskbyyumagulov.data.API
+import ru.devyumagulov.kinopoiskbyyumagulov.data.Entity.Film
 import ru.devyumagulov.kinopoiskbyyumagulov.data.Entity.TmdbResultsDto
 import ru.devyumagulov.kinopoiskbyyumagulov.data.MainRepository
 import ru.devyumagulov.kinopoiskbyyumagulov.data.Preferences.PreferenceProvider
@@ -21,9 +22,7 @@ class Interactor (private val repo: MainRepository, private val retrofitService:
                 //При успехе мы вызываем метод передаем onSuccess и в этот коллбэк список фильмов
                 val list = Converter.convertApiListToDtoList(response.body()?.tmdbFilms)
                 //Кладем фильмы в БД
-                list.forEach {
-                    repo.putToDb(film = it)
-                }
+                repo.putToDb(list)
                 callback.onSuccess(list)
             }
 

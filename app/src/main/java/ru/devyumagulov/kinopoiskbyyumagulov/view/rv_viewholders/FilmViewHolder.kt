@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.film_item.view.*
 import ru.devyumagulov.kinopoiskbyyumagulov.data.ApiConstants
-import ru.devyumagulov.kinopoiskbyyumagulov.domain.Film
+import ru.devyumagulov.kinopoiskbyyumagulov.data.Entity.Film
 
 //В конструктор класс передается layout, который мы создали(film_item.xml)
 class FilmViewHolder(private val itemView: View) : RecyclerView.ViewHolder(itemView) {

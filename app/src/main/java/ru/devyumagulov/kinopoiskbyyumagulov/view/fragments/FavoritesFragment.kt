@@ -11,7 +11,7 @@ import ru.devyumagulov.kinopoiskbyyumagulov.view.rv_adapters.FilmListRecyclerAda
 import ru.devyumagulov.kinopoiskbyyumagulov.view.MainActivity
 import ru.devyumagulov.kinopoiskbyyumagulov.R
 import ru.devyumagulov.kinopoiskbyyumagulov.view.rv_adapters.TopSpacingItemDecoration
-import ru.devyumagulov.kinopoiskbyyumagulov.domain.Film
+import ru.devyumagulov.kinopoiskbyyumagulov.data.Entity.Film
 import ru.devyumagulov.kinopoiskbyyumagulov.utils.AnimationHelper
 
 class FavoritesFragment : Fragment() {

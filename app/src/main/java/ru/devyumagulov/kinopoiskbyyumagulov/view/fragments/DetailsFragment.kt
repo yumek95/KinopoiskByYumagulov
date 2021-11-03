@@ -2,7 +2,6 @@ package ru.devyumagulov.kinopoiskbyyumagulov.view.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.renderscript.ScriptGroup
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import kotlinx.android.synthetic.main.fragment_details.*
 import ru.devyumagulov.kinopoiskbyyumagulov.R
 import ru.devyumagulov.kinopoiskbyyumagulov.data.ApiConstants
 import ru.devyumagulov.kinopoiskbyyumagulov.databinding.FragmentDetailsBinding
-import ru.devyumagulov.kinopoiskbyyumagulov.domain.Film
+import ru.devyumagulov.kinopoiskbyyumagulov.data.Entity.Film
 
 class DetailsFragment : Fragment() {
     private lateinit var film : Film

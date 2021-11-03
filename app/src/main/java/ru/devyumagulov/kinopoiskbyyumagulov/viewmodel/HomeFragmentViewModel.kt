@@ -3,8 +3,9 @@ package ru.devyumagulov.kinopoiskbyyumagulov.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.devyumagulov.kinopoiskbyyumagulov.App
-import ru.devyumagulov.kinopoiskbyyumagulov.domain.Film
+import ru.devyumagulov.kinopoiskbyyumagulov.data.Entity.Film
 import ru.devyumagulov.kinopoiskbyyumagulov.domain.Interactor
+import java.util.concurrent.Executors
 import javax.inject.Inject
 
 class HomeFragmentViewModel : ViewModel() {
@@ -26,7 +27,9 @@ class HomeFragmentViewModel : ViewModel() {
             }
 
             override fun onFailure() {
-                filmListLiveData.postValue(interactor.getFilmsFromDb())
+                Executors.newSingleThreadExecutor().execute {
+                    filmListLiveData.postValue(interactor.getFilmsFromDb())
+                }
             }
         })
     }
