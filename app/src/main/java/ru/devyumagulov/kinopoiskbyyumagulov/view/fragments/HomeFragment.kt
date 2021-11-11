@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -52,40 +53,24 @@ class HomeFragment : Fragment() {
         AnimationHelper.performFragmentCircularRevealAnimation(home_fragment_root, requireActivity(), 1)
 
         initPullToRefresh()
-        //подпишемся на изменения этой View Model
-        viewModel.filmListLiveData.observe(viewLifecycleOwner, Observer<List<Film>> {
-            filmsDataBase = it
-        })
+        //Теперь все поле search_view кликабельно
+        initSearchView()
         //находим наш RV
-        main_recycler.apply {
-            //Инициализируем наш адаптер в конструктор передаем анонимно инициализированный интерфейс,
-            filmsAdapter =
-                FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener {
-                    override fun click(film: Film) {
-                        (requireActivity() as MainActivity).launchDetailsFragment(film)
-
-                    }
-                })
-
-            //Присваиваем адаптер
-            adapter = filmsAdapter
-            //Присвоим layoutManager
-            layoutManager = LinearLayoutManager(requireContext())
-            //Применяем декоратор для отступов
-            val decorator = TopSpacingItemDecoration(8)
-            addItemDecoration(decorator)
-        }
+        initRecycler()
         //Кладем нашу БД в RV
         viewModel.filmListLiveData.observe(viewLifecycleOwner, Observer<List<Film>> {
             filmsDataBase = it
             filmsAdapter.addItems(it)
         })
+        viewModel.showProgressBar.observe(viewLifecycleOwner, Observer<Boolean> {
+            binding.progressBar.isVisible = it
+        })
+    }
 
-        //Теперь все поле search_view кликабельно
+    private fun initSearchView() {
         search_view.setOnClickListener {
             search_view.isIconified = false
         }
-
         //Подключаем слушателя изменений введенного текста в поиска
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
@@ -113,6 +98,7 @@ class HomeFragment : Fragment() {
             }
         })
     }
+
     private fun initPullToRefresh() {
         //Вешаем слушатель, чтобы вызвался pull to refresh
         binding.pullToRefresh.setOnRefreshListener {
@@ -122,6 +108,25 @@ class HomeFragment : Fragment() {
             viewModel.getFilms()
             //Убираем крутящееся колечко
             binding.pullToRefresh.isRefreshing = false
+        }
+    }
+
+    private fun initRecycler() {
+        main_recycler.apply {
+            //Инициализируем наш адаптер в конструктор передаем анонимно инициализированный интерфейс,
+            filmsAdapter =
+                FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener {
+                    override fun click(film: Film) {
+                        (requireActivity() as MainActivity).launchDetailsFragment(film)
+                    }
+                })
+            //Присваиваем адаптер
+            adapter = filmsAdapter
+            //Присвоим layoutManager
+            layoutManager = LinearLayoutManager(requireContext())
+            //Применяем декоратор для отступов
+            val decorator = TopSpacingItemDecoration(8)
+            addItemDecoration(decorator)
         }
     }
 }

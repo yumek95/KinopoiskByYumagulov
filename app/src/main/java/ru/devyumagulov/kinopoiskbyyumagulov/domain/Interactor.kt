@@ -1,5 +1,6 @@
 package ru.devyumagulov.kinopoiskbyyumagulov.domain
 
+import androidx.lifecycle.LiveData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,7 +24,7 @@ class Interactor (private val repo: MainRepository, private val retrofitService:
                 val list = Converter.convertApiListToDtoList(response.body()?.tmdbFilms)
                 //Кладем фильмы в БД
                 repo.putToDb(list)
-                callback.onSuccess(list)
+                callback.onSuccess()
             }
 
             override fun onFailure(call: Call<TmdbResultsDto>, t: Throwable) {
@@ -40,5 +41,5 @@ class Interactor (private val repo: MainRepository, private val retrofitService:
     //Метод для получения настроек
     fun getDefaultCategoryFromPreferences() = preference.getDefaultCategory()
 
-    fun getFilmsFromDb(): List<Film> = repo.getAllFromDb()
+    fun getFilmsFromDb(): LiveData<List<Film>> = repo.getAllFromDb()
 }

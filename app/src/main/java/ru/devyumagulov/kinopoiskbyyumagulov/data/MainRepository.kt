@@ -1,5 +1,6 @@
 package ru.devyumagulov.kinopoiskbyyumagulov.data
 
+import androidx.lifecycle.LiveData
 import ru.devyumagulov.kinopoiskbyyumagulov.data.Entity.Film
 import ru.devyumagulov.kinopoiskbyyumagulov.data.dao.FilmDao
 import java.util.concurrent.Executors
@@ -13,7 +14,5 @@ class MainRepository(private val filmDao: FilmDao) {
         }
     }
 
-    fun getAllFromDb(): List<Film> {
-        return filmDao.getCashedFilms()
-    }
+    fun getAllFromDb(): LiveData<List<Film>> = filmDao.getCashedFilms()
 }
