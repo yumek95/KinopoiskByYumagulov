@@ -11,6 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 import ru.devyumagulov.kinopoiskbyyumagulov.view.MainActivity
 import ru.devyumagulov.kinopoiskbyyumagulov.databinding.FragmentHomeBinding
 import ru.devyumagulov.kinopoiskbyyumagulov.view.rv_adapters.TopSpacingItemDecoration
@@ -25,6 +27,7 @@ class HomeFragment : Fragment() {
     //Поле для нашего адаптера
     private lateinit var filmsAdapter: FilmListRecyclerAdapter
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var scope: CoroutineScope
     private val viewModel by lazy {
         ViewModelProvider.NewInstanceFactory().create(HomeFragmentViewModel::class.java)
     }
@@ -58,13 +61,28 @@ class HomeFragment : Fragment() {
         //находим наш RV
         initRecycler()
         //Кладем нашу БД в RV
-        viewModel.filmListLiveData.observe(viewLifecycleOwner, Observer<List<Film>> {
-            filmsDataBase = it
-            filmsAdapter.addItems(it)
-        })
-        viewModel.showProgressBar.observe(viewLifecycleOwner, Observer<Boolean> {
-            binding.progressBar.isVisible = it
-        })
+        scope = CoroutineScope(Dispatchers.IO).also { scope ->
+            scope.launch {
+                viewModel.filmListData.collect {
+                    withContext(Dispatchers.Main) {
+                        filmsDataBase = it
+                        filmsAdapter.addItems(it)
+                    }
+                }
+            }
+        }
+        scope.launch {
+            for (element in viewModel.showProgressBar) {
+                launch(Dispatchers.Main) {
+                    binding.progressBar.isVisible = element
+                }
+            }
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        scope.cancel()
     }
 
     private fun initSearchView() {
