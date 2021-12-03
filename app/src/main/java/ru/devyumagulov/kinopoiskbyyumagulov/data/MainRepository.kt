@@ -1,5 +1,6 @@
 package ru.devyumagulov.kinopoiskbyyumagulov.data
 
+import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.flow.Flow
 import ru.devyumagulov.kinopoiskbyyumagulov.data.Entity.Film
 import ru.devyumagulov.kinopoiskbyyumagulov.data.dao.FilmDao
@@ -11,5 +12,5 @@ class MainRepository(private val filmDao: FilmDao) {
         filmDao.insertAll(films)
     }
 
-    fun getAllFromDb(): Flow<List<Film>> = filmDao.getCashedFilms()
+    fun getAllFromDb(): Observable<List<Film>> = filmDao.getCashedFilms()
 }

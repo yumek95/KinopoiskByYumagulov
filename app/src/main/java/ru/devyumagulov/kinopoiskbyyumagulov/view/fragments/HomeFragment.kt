@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
@@ -18,6 +20,8 @@ import ru.devyumagulov.kinopoiskbyyumagulov.databinding.FragmentHomeBinding
 import ru.devyumagulov.kinopoiskbyyumagulov.view.rv_adapters.TopSpacingItemDecoration
 import ru.devyumagulov.kinopoiskbyyumagulov.data.Entity.Film
 import ru.devyumagulov.kinopoiskbyyumagulov.utils.AnimationHelper
+import ru.devyumagulov.kinopoiskbyyumagulov.utils.AutoDisposable
+import ru.devyumagulov.kinopoiskbyyumagulov.utils.addTo
 import ru.devyumagulov.kinopoiskbyyumagulov.view.rv_adapters.FilmListRecyclerAdapter
 import ru.devyumagulov.kinopoiskbyyumagulov.viewmodel.HomeFragmentViewModel
 import java.util.*
@@ -27,7 +31,7 @@ class HomeFragment : Fragment() {
     //Поле для нашего адаптера
     private lateinit var filmsAdapter: FilmListRecyclerAdapter
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var scope: CoroutineScope
+    private val autoDisposable = AutoDisposable()
     private val viewModel by lazy {
         ViewModelProvider.NewInstanceFactory().create(HomeFragmentViewModel::class.java)
     }
@@ -41,6 +45,12 @@ class HomeFragment : Fragment() {
         //Обновляем RV адаптер
         filmsAdapter.addItems(field)
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        autoDisposable.bindTo(lifecycle)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -61,28 +71,21 @@ class HomeFragment : Fragment() {
         //находим наш RV
         initRecycler()
         //Кладем нашу БД в RV
-        scope = CoroutineScope(Dispatchers.IO).also { scope ->
-            scope.launch {
-                viewModel.filmListData.collect {
-                    withContext(Dispatchers.Main) {
-                        filmsDataBase = it
-                        filmsAdapter.addItems(it)
-                    }
-                }
+        viewModel.filmListData
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { list ->
+                filmsDataBase = list
+                filmsAdapter.addItems(list)
             }
-        }
-        scope.launch {
-            for (element in viewModel.showProgressBar) {
-                launch(Dispatchers.Main) {
-                    binding.progressBar.isVisible = element
-                }
+            .addTo(autoDisposable)
+        viewModel.showProgressBar
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                binding.progressBar.isVisible = it
             }
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        scope.cancel()
+            .addTo(autoDisposable)
     }
 
     private fun initSearchView() {
